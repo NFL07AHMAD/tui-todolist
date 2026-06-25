@@ -11,8 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-  private static final String URL = "jdbc:h2:./data/todolist;DB_CLOSE_DELAY=-1";
+  private static String URL = "jdbc:h2:./data/todolist;DB_CLOSE_DELAY=-1";
   Connection connection;
+
+  public Storage() {
+  }
+
+  public Storage(String url) {
+    URL = url;
+  }
 
   public void connect() {
     try {
