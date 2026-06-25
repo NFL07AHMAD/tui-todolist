@@ -1,6 +1,9 @@
 .project
 .classpath
+dependency-reduced-pom.xml
 
+META-INF/
+data/
 .settings/
 .vscode/
 target/
