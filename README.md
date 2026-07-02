@@ -1,6 +1,4 @@
-<h1 align="center">
-TUI Todo List
-</h1>
+# TUI Todo List
 
 > **Note:** This application is still in early access. If you encounter any issues or bugs, feel free to open an issue. 😄
 
@@ -17,7 +15,9 @@ This application runs on:
 - macOS
 - Android (requires Termux)
 
-## 🏃 Getting Started
+## Usage
+
+### Installing and running
 
 Make sure you have the latest version of Java installed.
 
@@ -27,6 +27,12 @@ Download the latest release, then run:
 java -jar tui-todolist.jar
 ```
 
-## 🤝 Contributions are always welcome!
+### Keybinds
+
+` a `: Toggle complete task
+` Tab `: Switch focus
+
+## 🤝 Contributions are always welcome
+
 Since this is my first open-source project, some parts of the code may not be well documented yet.
 I'll continue improving the documentation as the project grows. 😄
