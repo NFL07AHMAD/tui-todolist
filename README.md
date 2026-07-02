@@ -29,7 +29,7 @@ java -jar tui-todolist.jar
 
 ### Keybinds
 
-` a `: Toggle complete task
+` a `: Toggle complete task  
 ` Tab `: Switch focus
 
 ## 🤝 Contributions are always welcome
