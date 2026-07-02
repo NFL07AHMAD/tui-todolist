@@ -66,6 +66,12 @@
   </properties>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering> <!-- This triggers the replacement -->
+      </resource>
+    </resources>
     <plugins>
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
@@ -155,9 +161,15 @@
             <activeByDefault>true</activeByDefault> 
         </activation>
         <properties>
-            <db.url>jdbc:mysql://localhost:3306/dev_db</db.url>
+            <db.url>jdbc:h2:mem:dev;DB_CLOSE_DELAY=-1</db.url>
             <log.level>DEBUG</log.level>
         </properties>
+    </profile>
+    <profile>
+      <id>release</id>
+      <properties>
+        <db.url>jdbc:h2:./data/todolist;DB_CLOSE_DELAY=-1</db.url>
+      </properties>
     </profile>
   </profiles>
 </project>

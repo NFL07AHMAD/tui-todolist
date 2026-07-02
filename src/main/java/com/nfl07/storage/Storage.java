@@ -9,22 +9,37 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 
 public class Storage {
-  private static String URL = "jdbc:h2:./data/todolist;DB_CLOSE_DELAY=-1";
+  String dbUrl;
   Connection connection;
 
   public Storage() {
+    Properties prop = new Properties();
+    try (InputStream input = Storage.class.getClassLoader().getResourceAsStream("config.properties")) {
+      if (input == null) {
+        throw new RuntimeException("Maaf, config.properties tidak ditemukan!");
+      }
+      prop.load(input);
+      // Ambil URL yang sudah disuntikkan oleh Maven
+      this.dbUrl = prop.getProperty("database.url");
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
   }
 
   public Storage(String url) {
-    URL = url;
+    dbUrl = url;
   }
 
   public void connect() {
     try {
       // 1. Membuat koneksi ke H2
-      this.connection = DriverManager.getConnection(URL);
+      this.connection = DriverManager.getConnection(dbUrl);
       System.out.println("Koneksi ke H2 Database berhasil.");
       // 2. Langsung panggil metode init setelah koneksi siap
       init();
@@ -36,7 +51,7 @@ public class Storage {
   }
 
   public void init() {
-    try (Statement stmt = connection.createStatement()) {
+    try (Statement stmt = this.connection.createStatement()) {
       stmt.execute(
           "CREATE TABLE IF NOT EXISTS tasks (id INTEGER AUTO_INCREMENT PRIMARY KEY, title"
               + " VARCHAR(255) NOT NULL, completed BOOLEAN NOT NULL)");
@@ -47,7 +62,7 @@ public class Storage {
 
   public void save(String title, boolean completed) {
     try {
-      PreparedStatement ps = connection.prepareStatement("INSERT INTO tasks (title, completed) VALUES (?, ?)");
+      PreparedStatement ps = this.connection.prepareStatement("INSERT INTO tasks (title, completed) VALUES (?, ?)");
       ps.setString(1, title);
       ps.setBoolean(2, completed);
       ps.executeUpdate();
@@ -58,7 +73,7 @@ public class Storage {
 
   public void updateComplete(boolean completed, int id) {
     try {
-      PreparedStatement ps = connection.prepareStatement("UPDATE tasks SET completed = ? WHERE id = ?");
+      PreparedStatement ps = this.connection.prepareStatement("UPDATE tasks SET completed = ? WHERE id = ?");
       ps.setBoolean(1, completed);
       ps.setInt(2, id);
       ps.executeUpdate();
@@ -71,7 +86,7 @@ public class Storage {
     List<Todo> todos = new ArrayList<>();
 
     try {
-      PreparedStatement ps = connection.prepareStatement("SELECT * FROM tasks");
+      PreparedStatement ps = this.connection.prepareStatement("SELECT * FROM tasks");
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
         Todo todo = new Todo(rs.getInt("id"), rs.getString("title"), rs.getBoolean("completed"));

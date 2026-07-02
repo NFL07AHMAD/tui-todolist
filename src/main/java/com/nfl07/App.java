@@ -25,7 +25,7 @@ public class App extends ToolkitApp {
 
   private List<String> loadData() {
     return service.load().stream()
-        .map(todo -> (todo.getCompleted() ? "󰄲 " : "󰄱 ") + todo.getTitle())
+        .map(todo -> (todo.getCompleted() ? "[x] " : "[ ] ") + todo.getTitle())
         .collect(Collectors.toList());
   }
 
