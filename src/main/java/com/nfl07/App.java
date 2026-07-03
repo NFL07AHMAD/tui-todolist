@@ -9,9 +9,9 @@ import dev.tamboui.toolkit.element.Element;
 import dev.tamboui.toolkit.elements.ListElement;
 import dev.tamboui.toolkit.event.EventResult;
 import dev.tamboui.widgets.input.TextInputState;
+import dev.tamboui.style.Color;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.h2.tools.Server;
 
 public class App extends ToolkitApp {
   TextInputState inputState = new TextInputState();
@@ -32,9 +32,8 @@ public class App extends ToolkitApp {
   @Override
   protected Element render() {
     return column(
-        text(myList.selected()),
         myList
-            .fill(2)
+            .fill()
             .focusable()
             .onKeyEvent(
                 event -> {
@@ -47,6 +46,9 @@ public class App extends ToolkitApp {
                 }),
         textInput(inputState)
             .id("input")
+            .rounded()
+            .borderColor(Color.WHITE)
+            .focusedBorderColor(Color.CYAN)
             .focusable()
             .placeholder("Enter title...")
             .onSubmit(
@@ -65,7 +67,9 @@ public class App extends ToolkitApp {
 
     TodoService service = new TodoService(database);
     new App(service).run();
-
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      database.close();
+    }));
     while (true) {
       Thread.sleep(1000);
     }

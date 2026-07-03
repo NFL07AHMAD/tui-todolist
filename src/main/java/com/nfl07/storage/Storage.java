@@ -137,4 +137,16 @@ public class Storage {
     }
     return exist;
   }
+
+  public void close() {
+    try {
+      if (connection != null && !connection.isClosed()) {
+        connection.close();
+        System.out.println("\nDatabase H2 berhasil diputus dengan aman.");
+      }
+    } catch (SQLException e) {
+      System.err.println("Gagal menutup koneksi database!");
+      e.printStackTrace();
+    }
+  }
 }
