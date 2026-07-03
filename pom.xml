@@ -4,11 +4,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.nfl07</groupId>
-  <artifactId>tuitodolist</artifactId>
+  <artifactId>tui-todolist</artifactId>
   <version>0.1.1</version>
   <packaging>jar</packaging>
 
-  <name>tuitodolist</name>
+  <name>tui-todolist</name>
   <url>http://www.example.com</url>
 
   <repositories>
