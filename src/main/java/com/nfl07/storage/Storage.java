@@ -114,19 +114,9 @@ public class Storage {
     }
     return completed;
   }
-  
+
   public void delete(int id) {
-    String stmt = """
-      DELETE FROM tasks
-      WHERE id = (
-      SELECT id
-      FROM (
-        SELECT id,
-          ROW_NUMBER() OVER (ORDER BY id) AS rn
-        FROM tasks
-      ) t
-      WHERE rn = ?
-    """;
+    String stmt = "DELETE FROM tasks WHERE id = (SELECT id FROM (SELECT id, ROW_NUMBER() OVER (ORDER BY id) AS rn FROM tasks) t WHERE rn = ?)";
     try {
       PreparedStatement ps = this.connection.prepareStatement(stmt);
       ps.setInt(1, id);
