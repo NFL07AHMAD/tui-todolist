@@ -41,4 +41,12 @@ public class TodoService {
       }
     }
   }
+  public void deleteById(int id) {
+    id += 1;
+    if (database.isEmpty()) {
+      return;
+    } else {
+      database.delete(id); 
+    }
+  }
 }

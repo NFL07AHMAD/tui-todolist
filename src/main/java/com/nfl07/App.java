@@ -42,6 +42,11 @@ public class App extends ToolkitApp {
                     myList.items(loadData());
                     return EventResult.HANDLED;
                   }
+                  if (event.isChar('d')) {
+                    service.deleteById(myList.selected());
+                    myList.items(loadData());
+                    return EventResult.HANDLED;
+                  }
                   return EventResult.UNHANDLED;
                 }),
         textInput(inputState)
