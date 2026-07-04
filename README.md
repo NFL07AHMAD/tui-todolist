@@ -29,8 +29,9 @@ java -jar tui-todolist.jar
 
 ### Keybinds
 
-` a `: Toggle complete task  
-` Tab `: Switch focus
+` a ` Toggle complete a task
+`d` Delete a task
+` Tab ` Switch focus between input and list
 
 ## 🤝 Contributions are always welcome
 
