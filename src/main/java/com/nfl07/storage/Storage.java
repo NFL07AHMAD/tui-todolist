@@ -22,7 +22,7 @@ public class Storage {
     Properties prop = new Properties();
     try (InputStream input = Storage.class.getClassLoader().getResourceAsStream("config.properties")) {
       if (input == null) {
-        throw new RuntimeException("Maaf, config.properties tidak ditemukan!");
+        throw new RuntimeException("config.properties is not found!");
       }
       prop.load(input);
       // Ambil URL yang sudah disuntikkan oleh Maven

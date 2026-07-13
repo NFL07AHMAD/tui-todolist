@@ -169,7 +169,7 @@
     <profile>
       <id>release</id>
       <properties>
-        <db.url>jdbc:h2:./data/todolist;DB_CLOSE_DELAY=-1</db.url>
+        <db.url>jdbc:h2:~/Documents/tui-todolist/data/todolist;DB_CLOSE_DELAY=-1</db.url>
       </properties>
     </profile>
   </profiles>
