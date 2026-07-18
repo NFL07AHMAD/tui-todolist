@@ -22,10 +22,9 @@ public class Storage {
     Properties prop = new Properties();
     try (InputStream input = Storage.class.getClassLoader().getResourceAsStream("config.properties")) {
       if (input == null) {
-        throw new RuntimeException("Maaf, config.properties tidak ditemukan!");
+        throw new RuntimeException("Config not found");
       }
       prop.load(input);
-      // Ambil URL yang sudah disuntikkan oleh Maven
       this.dbUrl = prop.getProperty("database.url");
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
@@ -38,14 +37,13 @@ public class Storage {
 
   public void connect() {
     try {
-      // 1. Membuat koneksi ke H2
       this.connection = DriverManager.getConnection(dbUrl);
-      System.out.println("Koneksi ke H2 Database berhasil.");
-      // 2. Langsung panggil metode init setelah koneksi siap
+      System.out.println("Database connected.");
+      // Call init after connected
       init();
 
     } catch (SQLException e) {
-      System.err.println("Gagal mengoneksikan atau menginisialisasi database!");
+      System.err.println("Can't connect to database");
       e.printStackTrace();
     }
   }
@@ -82,7 +80,7 @@ public class Storage {
     }
   }
 
-  public List<Todo> get() {
+  public List<Todo> getAllTasks() {
     List<Todo> todos = new ArrayList<>();
 
     try {
@@ -133,11 +131,10 @@ public class Storage {
       PreparedStatement stmt = connection.prepareStatement("SELECT EXISTS (SELECT 1 FROM tasks)");
       ResultSet rs = stmt.executeQuery();
       if (rs.next()) {
-        // Ingat pelajaran sebelumnya, rs.getBoolean otomatis membaca nilai
-        // boolean/bit/tinyint
-        boolean adaData = rs.getBoolean(1);
 
-        if (!adaData) {
+        boolean foundData = rs.getBoolean(1);
+
+        if (!foundData) {
           exist = true;
         } else {
           exist = false;
@@ -153,10 +150,10 @@ public class Storage {
     try {
       if (connection != null && !connection.isClosed()) {
         connection.close();
-        System.out.println("\nDatabase H2 berhasil diputus dengan aman.");
+        System.out.println("\nDatabase connection closed.");
       }
     } catch (SQLException e) {
-      System.err.println("Gagal menutup koneksi database!");
+      System.err.println("Can't close database connection!");
       e.printStackTrace();
     }
   }
